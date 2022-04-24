@@ -70,30 +70,6 @@ function create_TA2C_from_file(filename::String = ".keys")::Dict
   return keys
 end
 
-# create_TA2C_from_env
-# Reads environment for API keys, returns a Dictionary
-# --------------------------------------------------
-# api_key      :: variable name for API key
-#                 defaults: TWITTER_KEY
-# api_secret   :: variable name for API secret
-#                 defaults: TWITTER_SECRET
-# bearer_token :: variable name for bearer token
-#                 defaults: TWITTER_BEARER_TOKEN
-
-function create_TA2c_from_env(api_key::String = "TWITTER_KEY", 
-    api_secret::String = "TWITTER_SECRET", bearer_token::String = "TWITTER_BEARER_TOKEN")::Dict
-  keys = Dict()
-
-  keys["key"] = ENV[api_key]
-  keys["secret"] = ENV[api_secret]
-  keys["token"] = ENV[bearer_token]
-
-  return keys
-end
-  
-# --------------------------------------------------
-
-TA2c = create_TA2c_from_env()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 # recent_tweet_counts
@@ -104,26 +80,31 @@ query_params = Dict(
   "granularity"=>"day",
 )
 search_url = "https://api.twitter.com/2/tweets/search/counts/recent"
-
+# we put our tweet criteria above here^ (replace "paraga") (this is to search most recent)
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 # full-archive-search
 # https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/main/Full-Archive-Search/full-archive-search.py
 
 _query_params = Dict(
  "query"=>"(from:twitterdev -is:retweet) OR #twitterdev",
- "tweet.fields"=>"author_id"
+ "tweet.fields"=>"author_id",
+ "tweet.fields" =>"ivermectin",
+ "tweet.fields" =>"hydroxychloroquine",
+ "tweet.fields" =>"remdesivir"
 )
 _search_url = "https://api.twitter.com/2/tweets/search/30day/fullarchive"
-
+# we put our tweet criteria above here^ (this is to search all twitter last 30 days)
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# make_GET_req
+# make_GET_req 
 # Blanket function for simple GET requests. Returns full request object.
 #
 # This can be copy-pasted...
 # --------------------------------------------------
 # url    :: URL to make request to
 # params :: Dictionary of parameters to send/ body of request
+
+params = _query_params
 
 function make_GET_req(url::String, params::Dict)::HTTP.response
   response = HTTP.request("GET", url, [
