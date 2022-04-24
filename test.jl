@@ -61,7 +61,7 @@ _search_url = "https://api.twitter.com/2/tweets/search/30day/fullarchive"
 url = "https://api.twitter.com/2/tweets/search/30day/fullarchive"
 params = _query_params
 
-function make_GET_req(url::String, params::Dict)::HTTP.response
+function make_GET_req(url::String, params::Dict)::HTTP.Response
     response = HTTP.request("GET", url, [
         "Authorization"=>"Bearer "* TA2c["token"],
         "User-Agent"=>"Twitter-API-sample-code"
