@@ -1,4 +1,3 @@
-
 using HTTP
 using JSON
 
@@ -61,7 +60,7 @@ _search_url = "https://api.twitter.com/2/tweets/search/30day/fullarchive"
 url = "https://api.twitter.com/2/tweets/search/30day/fullarchive"
 params = _query_params
 
-function make_GET_req(url::String, params::Dict)::HTTP.response
+function make_GET_req(url::String, params::Dict)::HTTP.Response
     response = HTTP.request("GET", url, [
         "Authorization"=>"Bearer "* TA2c["token"],
         "User-Agent"=>"Twitter-API-sample-code"
@@ -76,4 +75,3 @@ r1 = make_GET_req(search_url, query_params)
 r2 = make_GET_req(_search_url, _query_params)
 
 # need to make a dictionionary of tweet criteria
-
