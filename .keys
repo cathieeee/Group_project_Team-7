@@ -1,14 +1,3 @@
-create_TA2C_from_file
-Reads provided file and returns a Dictionary with keys.
-
-For this to work plug-and-play, you need to have a file called ".keys"
-in your "current directory" --- barring technicalities, keep it in the 
-same directory (and run your code from this directory).
-
-> touch .keys
-> echo "key=<yprDGNKkvvrQRi5xbPMAMx5Vr>" > .keys
-> echo "secret=<CzYpWybW11MidEPy1LPLhsRqDXM529OHOl3U9HxbFXK4sYPxLJ>" >> .keys
-> echo "token=<AAAAAAAAAAAAAAAAAAAAANEdbAEAAAAAwCqU0FBz7vSooTAFlYtMchqmfig%3DMpXnTpJSWYgDpoVdNj3OG4i4PGrYjCkmOoitEmrxC4rtqVb9Ay>" >> .keys
- --------------------------------------------------
-filename :: name of file to read from
-defaults to .keys in current directory
+key=yprDGNKkvvrQRi5xbPMAMx5Vr 
+secret=CzYpWybW11MidEPy1LPLhsRqDXM529OHOl3U9HxbFXK4sYPxLJ
+token=AAAAAAAAAAAAAAAAAAAAANEdbAEAAAAAwCqU0FBz7vSooTAFlYtMchqmfig%3DMpXnTpJSWYgDpoVdNj3OG4i4PGrYjCkmOoitEmrxC4rtqVb9Ay

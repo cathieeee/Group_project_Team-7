@@ -43,7 +43,7 @@ using JSON
 # same directory (and run your code from this directory).
 #
 #   > touch .keys
-#   > echo "key=<yprDGNKkvvrQRi5xbPMAMx5Vr>" > .keys
+#   > echo "key=yprDGNKkvvrQRi5xbPMAMx5Vr" > .keys
 #   > echo "secret=<CzYpWybW11MidEPy1LPLhsRqDXM529OHOl3U9HxbFXK4sYPxLJ>" >> .keys
 #   > echo "token=<AAAAAAAAAAAAAAAAAAAAANEdbAEAAAAAwCqU0FBz7vSooTAFlYtMchqmfig%3DMpXnTpJSWYgDpoVdNj3OG4i4PGrYjCkmOoitEmrxC4rtqVb9Ay>" >> .keys
 #
@@ -129,7 +129,7 @@ function make_GET_req(url::String, params::Dict)::HTTP.response
   response = HTTP.request("GET", url, [
       "Authorization"=>"Bearer "* TA2c["token"],
       "User-Agent"=>"Twitter-API-sample-code"
-     ], HTTP.Form(params))
+     ], query=params)
 
   response.status == 200 || exit("Error: " + response.status)
 
