@@ -1,6 +1,9 @@
 
-####### get keys ######
+using HTTP
+using JSON
 
+####### get keys ######
+# this function makes accessesing our twitter authorization information possible without directly including keys in code
 function create_TA2C_from_file(filename::String = ".keys")::Dict
     keys = Dict()
   
@@ -16,29 +19,30 @@ function create_TA2C_from_file(filename::String = ".keys")::Dict
         keys[key] = strip(value)
       end
     end
-  
+
     return keys
 end
 
 TA2c = create_TA2C_from_file()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
+# these lines create query parameters in the form of a dictionary and a url link to the twitter API
 # recent_tweet_counts
 # https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/main/Recent-Tweet-Counts/recent_tweet_counts.py
 
-query_params = Dict(
-  "query"=>"from:paraga",
-  "granularity"=>"day",
-)
-search_url = "https://api.twitter.com/2/tweets/search/counts/recent"
+#query_params = Dict(
+#  "query"=>"ivermectin",
+#  "granularity"=>"day",
+#)
+#search_url = "https://api.twitter.com/2/tweets/search/counts/recent"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 # full-archive-search
 # https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/main/Full-Archive-Search/full-archive-search.py
 
 _query_params = Dict(
- "query"=>"(from:twitterdev -is:retweet) OR #twitterdev",
- "tweet.fields"=>"author_id"
+ "query"=>"(from:twitterdev -is:retweet) OR #ivermectin",
+ "tweet.fields"=>"author_id",
 )
 _search_url = "https://api.twitter.com/2/tweets/search/30day/fullarchive"
 
@@ -51,6 +55,8 @@ _search_url = "https://api.twitter.com/2/tweets/search/30day/fullarchive"
 # params :: Dictionary of parameters to send/ body of request
 
 ####### need to make params dictionary ######
+url = "https://api.twitter.com/2/tweets/search/30day/fullarchive"
+params = _query_params
 
 function make_GET_req(url::String, params::Dict)::HTTP.response
     response = HTTP.request("GET", url, [
@@ -63,7 +69,7 @@ function make_GET_req(url::String, params::Dict)::HTTP.response
     return response
 end
 
-r1 = make_GET_req(search_url, query_params)
+#r1 = make_GET_req(search_url, query_params)
 r2 = make_GET_req(_search_url, _query_params)
 
 # need to make a dictionionary of tweet criteria
