@@ -30,11 +30,11 @@ TA2c = create_TA2C_from_file()
 # recent_tweet_counts
 # https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/main/Recent-Tweet-Counts/recent_tweet_counts.py
 
-#query_params = Dict(
-#  "query"=>"ivermectin",
-#  "granularity"=>"day",
-#)
-#search_url = "https://api.twitter.com/2/tweets/search/counts/recent"
+query_params = Dict(
+  "query"=>"ivermectin",
+  "granularity"=>"day",
+)
+search_url = "https://api.twitter.com/2/tweets/search/counts/recent"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 # full-archive-search
@@ -43,6 +43,9 @@ TA2c = create_TA2C_from_file()
 _query_params = Dict(
  "query"=>"(from:twitterdev -is:retweet) OR #ivermectin",
  "tweet.fields"=>"author_id",
+ "tweet.fields" =>"ivermectin",
+ "tweet.fields" =>"hydroxychloroquine",
+ "tweet.fields" =>"remdesivir"
 )
 _search_url = "https://api.twitter.com/2/tweets/search/30day/fullarchive"
 
@@ -69,7 +72,8 @@ function make_GET_req(url::String, params::Dict)::HTTP.response
     return response
 end
 
-#r1 = make_GET_req(search_url, query_params)
+r1 = make_GET_req(search_url, query_params)
 r2 = make_GET_req(_search_url, _query_params)
 
 # need to make a dictionionary of tweet criteria
+
