@@ -49,5 +49,7 @@ function make_GET_req(url::String, params::Dict)::HTTP.Response
 end
 r1 = make_GET_req(search_url, query_params)
 
-open("api_result.json", "w") do file
-  write(file,r1)
+println(r1)
+
+#open("api_result.json", "w") do file
+ # write(file,r1)
