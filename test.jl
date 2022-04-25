@@ -31,7 +31,7 @@ TA2c = create_TA2C_from_file()
 # https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/main/Recent-Tweet-Counts/recent_tweet_counts.py
 
 query_params = Dict(
-  "query"=>"ivermectin",
+  "query"=>"ivermectin OR remdesivir OR hydroxychloroquine",
   "tweet.fields"=>"text"
 )
 search_url = "https://api.twitter.com/2/tweets/search/recent"
@@ -56,3 +56,9 @@ function make_GET_req(url::String, params::Dict)::HTTP.Response
 end
 r1 = make_GET_req(search_url, query_params)
 println(r1)
+
+###################################
+# we get a list or an array (unsure exact which i think a list) of responses
+# next we probably need to convert it to a DataFrame or whatever datastructure 
+# our machine will be compatable with AND one that we will be able to manually
+# assign sentiment.
