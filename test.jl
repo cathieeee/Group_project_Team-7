@@ -1,9 +1,12 @@
-
 using HTTP
 using JSON
+using DataFrames
+using CSV
 
-####### get keys ######
+########################## get keys ################################
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
 # this function makes accessesing our twitter authorization information possible without directly including keys in code
+
 function create_TA2C_from_file(filename::String = ".keys")::Dict
     keys = Dict()
   
@@ -19,47 +22,29 @@ function create_TA2C_from_file(filename::String = ".keys")::Dict
         keys[key] = strip(value)
       end
     end
-
     return keys
 end
-
 TA2c = create_TA2C_from_file()
 
+########### set search query parameters and search url ##############
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 # these lines create query parameters in the form of a dictionary and a url link to the twitter API
 # recent_tweet_counts
 # https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/main/Recent-Tweet-Counts/recent_tweet_counts.py
 
 query_params = Dict(
-  "query"=>"ivermectin",
-  "granularity"=>"day",
+  "query"=>"ivermectin OR remdesivir OR hydroxychloroquine lang:en",
+  "tweet.fields"=>"text"
 )
-search_url = "https://api.twitter.com/2/tweets/search/counts/recent"
+search_url = "https://api.twitter.com/2/tweets/search/recent"
 
+####################### HTTP GET Request ############################
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
-# full-archive-search
-# https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/main/Full-Archive-Search/full-archive-search.py
-
-_query_params = Dict(
- "query"=>"(from:twitterdev -is:retweet) OR #ivermectin",
- "tweet.fields"=>"author_id",
- "tweet.fields" =>"ivermectin",
- "tweet.fields" =>"hydroxychloroquine",
- "tweet.fields" =>"remdesivir"
-)
-_search_url = "https://api.twitter.com/2/tweets/search/30day/fullarchive"
-
 # make_GET_req
 # Blanket function for simple GET requests. Returns full request object.
-#
-# This can be copy-pasted...
-# --------------------------------------------------
-# url    :: "https://api.twitter.com/2/tweets/search/30day/fullarchive"
-# params :: Dictionary of parameters to send/ body of request
 
-####### need to make params dictionary ######
-url = "https://api.twitter.com/2/tweets/search/30day/fullarchive"
-params = _query_params
+url = search_url
+params = query_params
 
 function make_GET_req(url::String, params::Dict)::HTTP.Response
     response = HTTP.request("GET", url, [
@@ -71,9 +56,14 @@ function make_GET_req(url::String, params::Dict)::HTTP.Response
   
     return response
 end
-
+#r1_obj = open("r1_obj_text.txt", "w")
 r1 = make_GET_req(search_url, query_params)
-r2 = make_GET_req(_search_url, _query_params)
 
-# need to make a dictionionary of tweet criteria
+println(r1)
 
+###################################
+# we get a list or an array (unsure exact which i think a list) of responses
+# next we probably need to convert it to a DataFrame or whatever datastructure 
+# our machine will be compatable with AND one that we will be able to manually
+# assign sentiment. The delimeter between tweets/roots is "},{" and between tweet 
+# fields/attributes is ","
