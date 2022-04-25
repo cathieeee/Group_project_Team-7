@@ -1,5 +1,7 @@
 using HTTP
 using JSON
+using DataFrames
+using CSV
 
 ########################## get keys ################################
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -31,7 +33,7 @@ TA2c = create_TA2C_from_file()
 # https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/main/Recent-Tweet-Counts/recent_tweet_counts.py
 
 query_params = Dict(
-  "query"=>"ivermectin OR remdesivir OR hydroxychloroquine",
+  "query"=>"ivermectin OR remdesivir OR hydroxychloroquine lang:en",
   "tweet.fields"=>"text"
 )
 search_url = "https://api.twitter.com/2/tweets/search/recent"
@@ -54,11 +56,14 @@ function make_GET_req(url::String, params::Dict)::HTTP.Response
   
     return response
 end
+#r1_obj = open("r1_obj_text.txt", "w")
 r1 = make_GET_req(search_url, query_params)
+
 println(r1)
 
 ###################################
 # we get a list or an array (unsure exact which i think a list) of responses
 # next we probably need to convert it to a DataFrame or whatever datastructure 
 # our machine will be compatable with AND one that we will be able to manually
-# assign sentiment.
+# assign sentiment. The delimeter between tweets/roots is "},{" and between tweet 
+# fields/attributes is ","

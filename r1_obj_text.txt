@@ -1,0 +1,26 @@
+HTTP.Messages.Response:
+"""
+HTTP/1.1 200 OK
+date: Mon, 25 Apr 2022 02:05:42 UTC
+server: tsa_b
+set-cookie: guest_id_marketing=v1%3A165085234190285963; Max-Age=63072000; Expires=Wed, 24 Apr 2024 02:05:42 GMT; Path=/; Domain=.twitter.com; Secure; SameSite=None, guest_id_ads=v1%3A165085234190285963; Max-Age=63072000; Expires=Wed, 24 Apr 2024 02:05:42 GMT; Path=/; Domain=.twitter.com; Secure; SameSite=None, personalization_id="v1_KfxumKeP4tdmcGM6vHBhgA=="; Max-Age=63072000; Expires=Wed, 24 Apr 2024 02:05:42 GMT; Path=/; Domain=.twitter.com; Secure; SameSite=None, guest_id=v1%3A165085234190285963; Max-Age=63072000; Expires=Wed, 24 Apr 2024 02:05:42 GMT; Path=/; Domain=.twitter.com; Secure; SameSite=None
+api-version: 2.39
+content-type: application/json; charset=utf-8
+cache-control: no-cache, no-store, max-age=0
+content-length: 2272
+x-access-level: read
+x-frame-options: SAMEORIGIN
+x-xss-protection: 0
+x-rate-limit-limit: 450
+x-rate-limit-reset: 1650853074
+content-disposition: attachment; filename=json.json
+x-content-type-options: nosniff
+x-rate-limit-remaining: 448
+strict-transport-security: max-age=631138519
+x-response-time: 124
+x-connection-hash: d638e275a2c08fcf50c06dbcbd91aeb640090a4b393a43c84246c0c6f81e7e3f
+
+{"data":[{"id":"1518410840436723712","text":"RT @ivermectin_med: Togetherの試験データも一緒に！？\nシステマティックレビューはこれまで以上に重要です\nhttps://t.co/m3KCa7i4Zo\n\n”イベルメクチンによる死亡の平均減少は35％と推定され、これもまた、22％から73％の間にある真…"},{"id":"1518410522403561473","text":"RT @Nik_Pandharikar: Dear Maharashtra.\n\nDon't Forget about\n\uD83D\uDC49Brutal Murders of Sadhus of Palghar , Sambhajinagar,Nanded\n\n\uD83D\uDC49MVA Government's S…"},{"id":"1518410428551901187","text":"RT @Merichymical: @OTURISK Remdesivir and ventilators. How do they manage to get it that wrong? And after ignoring any mention of early tre…"},{"id":"1518410411086737408","text":"RT @Nightdiver6: @OTURISK @WinterPeach13 How many ventilated patients who died had been or were still simultaneously being treated with Rem…"},{"id":"1518410311044325379","text":"@RepStefanik Hey guys, the Party of Ivermect
+⋮
+2272-byte body
+"""
