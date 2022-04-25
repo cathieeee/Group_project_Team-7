@@ -31,7 +31,8 @@ TA2c = create_TA2C_from_file()
 # https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/main/Recent-Tweet-Counts/recent_tweet_counts.py
 
 query_params = Dict(
-  "query"=>"from:twitterdev -is:retweet ivermectin"
+  "query"=>"ivermectin",
+  "tweet.fields"=>"text"
 )
 search_url = "https://api.twitter.com/2/tweets/search/recent"
 
