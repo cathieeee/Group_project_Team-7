@@ -1,8 +1,10 @@
 using HTTP
 using JSON
 
-####### get keys ######
+########################## get keys ################################
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
 # this function makes accessesing our twitter authorization information possible without directly including keys in code
+
 function create_TA2C_from_file(filename::String = ".keys")::Dict
     keys = Dict()
   
@@ -21,30 +23,23 @@ function create_TA2C_from_file(filename::String = ".keys")::Dict
     return keys
 end
 TA2c = create_TA2C_from_file()
+
+########### set search query parameters and search url ##############
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 # these lines create query parameters in the form of a dictionary and a url link to the twitter API
 # recent_tweet_counts
 # https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/main/Recent-Tweet-Counts/recent_tweet_counts.py
+
 query_params = Dict(
-  "query"=>"from:twitterdev -is:retweet #ivermectin"
+  "query"=>"from:twitterdev -is:retweet ivermectin"
 )
 search_url = "https://api.twitter.com/2/tweets/search/recent"
+
+####################### HTTP GET Request ############################
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
-# full-archive-search
-# https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/main/Full-Archive-Search/full-archive-search.py
-#_query_params = Dict(
-# "query"=>"(from:twitterdev -is:retweet) lang:en ("ivermectin" OR "hydroxychloroquine" OR "remdesivir")",
-# "tweet.fields"=>"author_id",
-#)
-#_search_url = https://api.twitter.com/2/tweets/search/30day/fullarchive
 # make_GET_req
 # Blanket function for simple GET requests. Returns full request object.
-#
-# This can be copy-pasted...
-# --------------------------------------------------
-# url    :: "https://api.twitter.com/2/tweets/search/30day/fullarchive"
-# params :: Dictionary of parameters to send/ body of request
-####### need to make params dictionary ######
+
 url = search_url
 params = query_params
 
@@ -59,5 +54,4 @@ function make_GET_req(url::String, params::Dict)::HTTP.Response
     return response
 end
 r1 = make_GET_req(search_url, query_params)
-#r2 = make_GET_req(_search_url, _query_params)
 println(r1)
