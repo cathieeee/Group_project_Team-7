@@ -49,7 +49,18 @@ function make_GET_req(url::String, params::Dict)::HTTP.Response
 end
 r1 = make_GET_req(search_url, query_params)
 
-println(r1)
+r1_obj = String(r1.body)
+r1_Dict = JSON.parse(r1_obj)
 
-#open("api_result.json", "w") do file
- # write(file,r1)
+r1_Dict_meta = r1_Dict["meta"]
+# keys ["oldest_id" "result_count" "newest_id" "next_token"]
+
+r1_Dict_data = r1_Dict["data"]
+# keys ["id" "text"]
+
+
+#r1_array = r1_data["data"]
+#JSON.print(r1_array, 2)
+
+
+
