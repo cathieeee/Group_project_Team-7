@@ -1,5 +1,7 @@
 using HTTP
 using JSON
+using DataFrames
+using CSV
 
 ####### get keys ######
 # this function makes accessesing our twitter authorization information possible without directly including keys in code
@@ -51,13 +53,19 @@ r1 = make_GET_req(search_url, query_params)
 
 r1_obj = String(r1.body)
 r1_Dict = JSON.parse(r1_obj)
+r1_json = JSON.json(r1_obj)
 
 r1_Dict_meta = r1_Dict["meta"]
-# keys ["oldest_id" "result_count" "newest_id" "next_token"]
+#r1_json_meta = r1_json["meta"]
+r1_meta_keys = ["oldest_id" "result_count" "newest_id" "next_token"]
 
 r1_Dict_data = r1_Dict["data"]
-# keys ["id" "text"]
+#r1_json_data = r1_json["data"]
+r1_data_keys = ["id" "text"]
 
+# need to figure out how to save the response as a json file?
+r1_df = CSV.write("r1_json.csv", r1_json;)|> DataFrame
+println(r1_df)
 
 #r1_array = r1_data["data"]
 #JSON.print(r1_array, 2)
