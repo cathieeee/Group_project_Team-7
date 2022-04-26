@@ -64,9 +64,17 @@ r1_Dict_data = r1_Dict["data"]
 r1_data_keys = ["id" "text"]
 
 # need to figure out how to save the response as a json file?
-r1_df = CSV.write("r1_json.csv", r1_json;)|> DataFrame
-println(r1_df)
+#r1_df = CSV.write("r1_json.csv", r1_json;)|> DataFrame
 
+println(r1_json)
+
+# delimeter = \"
+# format
+#   {\"data\":[{\"id\":\"string\",\"text\":\"string\"},{\"id\":\"string\",\"text\":\"string\"},{...}],
+#    \"meta\":{\"newest_id\":\"string\",\"oldest_id\":\"string\",\"result_count\":number,\"next_token\":\"string\"}}
+#
+# want a data structure with headers "id" and "text" hydrated from each line in r1_json 
+#
 #r1_array = r1_data["data"]
 #JSON.print(r1_array, 2)
 
