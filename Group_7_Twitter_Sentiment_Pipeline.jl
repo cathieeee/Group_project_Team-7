@@ -1,3 +1,4 @@
+module TwitterExtractor
 using HTTP
 using JSON
 using DataFrames
@@ -5,22 +6,22 @@ using CSV
 
 ####### get keys ######
 # this function makes accessesing our twitter authorization information possible without directly including keys in code
-function get_Keys(filename::String = ".keys")::Dict
-    keys = Dict()
-  
-    isfile(filename) || exit("File not found: " + filename)
-  
-    open(filename) do f
-      for line in eachline(f)
-        line = strip(line)
-  
-        occursin("=", line) || continue
-  
-        key, value = split(line, "=")
-        keys[key] = strip(value)
-      end
+function get_Keys(filename::String=".keys")::Dict
+  keys = Dict()
+
+  isfile(filename) || exit("File not found: " + filename)
+
+  open(filename) do f
+    for line in eachline(f)
+      line = strip(line)
+
+      occursin("=", line) || continue
+
+      key, value = split(line, "=")
+      keys[key] = strip(value)
     end
-    return keys
+  end
+  return keys
 end
 api_keys = get_Keys()
 
@@ -29,8 +30,8 @@ api_keys = get_Keys()
 # recent_tweet_counts
 # https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/main/Recent-Tweet-Counts/recent_tweet_counts.py
 query_params = Dict(
-  "query"=>"(ivermectin OR remdesivir OR hydroxychloroquine lang:en)",
-  "tweet.fields"=>"text"
+  "query" => "(ivermectin OR remdesivir OR hydroxychloroquine lang:en)",
+  "tweet.fields" => "text"
 )
 search_url = "https://api.twitter.com/2/tweets/search/recent"
 
@@ -40,15 +41,17 @@ url = search_url
 params = query_params
 
 function make_GET_req(url::String, params::Dict)::HTTP.Response
-    response = HTTP.request("GET", url, [
-        "Authorization"=>"Bearer "* api_keys["token"],
-        "User-Agent"=>"Twitter-API-sample-code"
-       ], query=params)
-  
-    response.status == 200 || exit("Error: " + response.status)
-  
-    return response
+  response = HTTP.request("GET", url, [
+      "Authorization" => "Bearer " * api_keys["token"],
+      "User-Agent" => "Twitter-API-sample-code"
+    ], query=params)
+
+  response.status == 200 || exit("Error: " + response.status)
+
+  return response
 end
+
+ 
 r1 = make_GET_req(search_url, query_params)
 
 r1_obj = String(r1.body)
@@ -60,13 +63,15 @@ r1_Dict_meta = r1_Dict["meta"]
 r1_meta_keys = ["oldest_id" "result_count" "newest_id" "next_token"]
 
 r1_Dict_data = r1_Dict["data"]
+write()
+println(r1_Dict_data)
 #r1_json_data = r1_json["data"]
 r1_data_keys = ["id" "text"]
 
 # need to figure out how to save the response as a json file?
 #r1_df = CSV.write("r1_json.csv", r1_json;)|> DataFrame
 
-println(r1_json)
+#println(r1_json)
 
 # delimeter = \"
 # format
@@ -77,6 +82,4 @@ println(r1_json)
 #
 # r1_array = r1_Dict["data"]
 # JSON.print(r1_array, 2)
-
-
-
+end
