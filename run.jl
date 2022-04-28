@@ -39,7 +39,7 @@ function main()
     println("running model...")
     predictions = LIBSVM.predict(svm_model, test_features)
     accuracy = 1 - misclassification_rate(predictions, test_labels)
-    println(accuracy)
+    println("accuracy: $accuracy")
 end
 
 main()
