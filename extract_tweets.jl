@@ -43,10 +43,17 @@ module TweetExtractor
     # recent_tweet_counts
     # https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/main/Recent-Tweet-Counts/recent_tweet_counts.py
     query_params = Dict(
-      "query"=>"(ivermectin OR remdesivir OR hydroxychloroquine lang:en)",
+      "query"=>"((Ivermectin OR Remdesivir OR Hydroxychloroquine OR ivermectin OR remdesivir OR hydroxychloroquine OR #Ivermectin OR #Remdesivir OR #Hydroxychloroquine OR #ivermectin OR #remdesivir OR #hydroxychloroquine) -is:retweet lang:en)",
       "tweet.fields"=>"text")
 
     search_url = "https://api.twitter.com/2/tweets/search/recent"
+
+    ####### if we get academic access use the below instead
+    query_params_academic = Dict(
+      "query"=>"((Ivermectin OR Remdesivir OR Hydroxychloroquine OR ivermectin OR remdesivir OR hydroxychloroquine OR #Ivermectin OR #Remdesivir OR #Hydroxychloroquine OR #ivermectin OR #remdesivir OR #hydroxychloroquine) -is:retweet lang:en)",
+      "tweet.fields"=>"text")
+
+    search_url_academic = "https://api.twitter.com/2/tweets/search/all"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - -
     ####### need to make params dictionary ######
@@ -68,13 +75,5 @@ module TweetExtractor
 
     writer = open(write_result_path, "w")
     JSON.print(writer, r1_Dict)
-
-    # open("api_result.json", "w") do file
-    #   write(file, r1_json)
-    # end
-    # delimeter = \"
-    # format
-    #   {\"data\":[{\"id\":\"string\",\"text\":\"string\"},{\"id\":\"string\",\"text\":\"string\"},{...}],
-    #    \"meta\":{\"newest_id\":\"string\",\"oldest_id\":\"string\",\"result_count\":number,\"next_token\":\"string\"}}
   end
 end
