@@ -7,9 +7,7 @@ module TweetJSONReader
 
         reader = open(input_file, "r")
         for line in readlines(reader)
-            if startswith(line, "{\"data\"")
-                raw_json = strip(line)
-            end
+            raw_json = line
         end
         close(reader)
         return raw_json
@@ -31,6 +29,7 @@ module TweetJSONReader
         for tweet_dict in j["data"]
             id_to_text_dict[tweet_dict["id"]] = tweet_dict["text"]
         end 
+        println(id_to_text_dict)
         return id_to_text_dict
     end
 
