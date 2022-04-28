@@ -56,27 +56,19 @@ r1_Dict = JSON.parse(r1_obj)
 r1_json = JSON.json(r1_obj)
 
 r1_Dict_meta = r1_Dict["meta"]
-#r1_json_meta = r1_json["meta"]
 r1_meta_keys = ["oldest_id" "result_count" "newest_id" "next_token"]
 
 r1_Dict_data = r1_Dict["data"]
-#r1_json_data = r1_json["data"]
 r1_data_keys = ["id" "text"]
 
-# need to figure out how to save the response as a json file?
-#r1_df = CSV.write("r1_json.csv", r1_json;)|> DataFrame
-
-println(r1_json)
+open("api_result.json", "w") do file
+  write(file,r1_json)
+end
 
 # delimeter = \"
 # format
 #   {\"data\":[{\"id\":\"string\",\"text\":\"string\"},{\"id\":\"string\",\"text\":\"string\"},{...}],
 #    \"meta\":{\"newest_id\":\"string\",\"oldest_id\":\"string\",\"result_count\":number,\"next_token\":\"string\"}}
-#
-# want a data structure with headers "id" and "text" hydrated from each line in r1_json 
-#
-# r1_array = r1_Dict["data"]
-# JSON.print(r1_array, 2)
 
 
 
