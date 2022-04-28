@@ -75,8 +75,8 @@ println(r1_json)
 #
 # want a data structure with headers "id" and "text" hydrated from each line in r1_json 
 #
-#r1_array = r1_data["data"]
-#JSON.print(r1_array, 2)
+# r1_array = r1_Dict["data"]
+# JSON.print(r1_array, 2)
 
 
 
