@@ -16,8 +16,9 @@ end
 
 function replace_delimiters(tweet_dict)
     for (id, text) in tweet_dict
-        processed_tweet_text = strip(replace(text, "|" => "/"))
-        tweet_dict[id] = processed_tweet_text
+        processed_text = replace(text, "|" => "/")
+        removed_new_lines = replace(processed_text, "\n" => " ")
+        tweet_dict[id] = removed_new_lines
     end
 
     return tweet_dict
@@ -41,7 +42,7 @@ function write_csv(output_path, tweet_dict)
         line = "$id|$tweet"
         println(writer, line)
     end
-    
+
     close(writer)
 end
 

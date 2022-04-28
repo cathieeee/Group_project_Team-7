@@ -38,17 +38,9 @@ module DocVector
         return token_index
     end
 
-    function make_doc_tensor(ngram_doc, token_index)
-        tensor = zeros(length(token_index))
-        for bigram_pair in ngrams(ngram_doc)
-            bigram = bigram_pair[1]
-            tensor[token_index[bigram]] = 1
-        end
-        return tensor
-    end
-
     function make_features(tweet_list)
         doc_list = []
+        println("making features...")
         for tweet in tweet_list
             push!(doc_list, StringDocument(tweet))
         end
@@ -59,9 +51,15 @@ module DocVector
         # dict of bigram --> corresponding index in feature
         token_index = make_token_index(crps)
         # pre-allocate space? 
-        features = []
-        for doc in crps
-            push!(features, make_doc_tensor(doc, token_index))
+        
+        num_features = length(tweet_list)
+        feature_length = length(token_index)
+        features = zeros(Int8, num_features, feature_length)
+        for (i, doc) in enumerate(crps)
+            for bigram in keys(ngrams(doc))
+                index = token_index[bigram]
+                features[i, index] = 1
+            end
         end
         return features
     end
