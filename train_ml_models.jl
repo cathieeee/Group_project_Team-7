@@ -87,3 +87,10 @@ module MLModels
         train_knn(train_features, train_labels, test_features, test_labels)
     end
 end
+
+function main()
+    MLModels.run_ml_models(ARGS[1])
+end
+
+main()
+# program arguments: <input csv file>

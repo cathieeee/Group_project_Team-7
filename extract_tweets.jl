@@ -78,3 +78,10 @@ module TweetExtractor
     #    \"meta\":{\"newest_id\":\"string\",\"oldest_id\":\"string\",\"result_count\":number,\"next_token\":\"string\"}}
   end
 end
+
+function main()
+  TweetExtractor.extract_tweets(ARGS[1])
+end
+
+main()
+# program arguments: <result path>

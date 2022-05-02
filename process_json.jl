@@ -29,7 +29,6 @@ module TweetJSONReader
         for tweet_dict in j["data"]
             id_to_text_dict[tweet_dict["id"]] = tweet_dict["text"]
         end 
-        println(id_to_text_dict)
         return id_to_text_dict
     end
 
@@ -42,7 +41,6 @@ module TweetJSONReader
             line = "$id|$tweet"
             println(writer, line)
         end
-
         close(writer)
     end
 
@@ -53,3 +51,10 @@ module TweetJSONReader
         write_csv(output_csv_path, tweet_dict)
     end
 end
+
+function main()
+    TweetJSONReader.write_unlabeled_tweets(ARGS[1], ARGS[2])
+end
+
+main()
+# program arguments: <input json path> <output csv path> 
