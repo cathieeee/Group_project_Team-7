@@ -117,9 +117,9 @@ function write_unlabeled_tweets(data_dict, output_csv_path)
   end
 end
 
-function main()
-  TweetExtractor.extract_tweets(ARGS[1])
-end
+# function main()
+#   TweetExtractor.extract_tweets(ARGS[1])
+# end
 
-main()
+# main()
 # program arguments: <result csv path>

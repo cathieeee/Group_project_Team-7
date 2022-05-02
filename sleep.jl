@@ -8,5 +8,7 @@ function sleep(sec, write_result_path)
     wait(Timer(sec))
     TweetExtractor.extract_tweets(write_result_path)
 end
-
-sleep(10, write_result_path)
+println("hello")
+println("sleeping...")
+sleep(10, "data/big_unlabeled_tweets")
+println("done")
