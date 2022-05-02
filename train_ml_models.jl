@@ -14,17 +14,24 @@ module MLModels
     function read_csv(input_file)
         tweets = String[]
         labels = Int8[]
+        ids = Set()
         reader = open(input_file, "r")
         counter = 1
         for line in readlines(reader)
             if counter != 1
                 line_vector = split(line, "|")
-                push!(tweets, line_vector[2])
-                push!(labels, parse(Int8, line_vector[3]))
+                curr_id = line_vector[1]
+                if !(curr_id in ids)
+                    push!(ids, line_vector[1])                
+                    push!(tweets, line_vector[2])
+                    push!(labels, parse(Int8, line_vector[3]))
+                end
             end
             counter += 1
         end
         close(reader)
+        println(ids)
+        println(length(tweets))
         return tweets, labels
     end
     
