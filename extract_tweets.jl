@@ -35,7 +35,7 @@ module TweetExtractor
       return response
   end
 
-  function extract_tweets(write_result_path)
+  function extract_tweets(write_result_csv)
     api_keys = get_Keys()
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -64,17 +64,56 @@ module TweetExtractor
 
     r1_obj = String(r1.body)
     r1_Dict = JSON.parse(r1_obj)
+
+    data_dict = r1_Dict["data"]
+
+    write_unlabeled_tweets(data_dict, write_result_csv)
+
     # r1_json = JSON.print(r1_obj)
 
+    # r1_Dict_meta = r1_Dict["meta"]
+    # r1_meta_keys = ["oldest_id" "result_count" "newest_id" "next_token"]
 
-    r1_Dict_meta = r1_Dict["meta"]
-    r1_meta_keys = ["oldest_id" "result_count" "newest_id" "next_token"]
+    # r1_Dict_data = r1_Dict["data"]
+    # r1_data_keys = ["id" "text"]
 
-    r1_Dict_data = r1_Dict["data"]
-    r1_data_keys = ["id" "text"]
+    # writer = open(write_result_path, "w")
+    # JSON.print(writer, r1_Dict["data"])
+  end
 
-    writer = open(write_result_path, "w")
-    JSON.print(writer, r1_Dict)
+function replace_delimiters(tweet_dict)
+  for (id, text) in tweet_dict
+      processed_text = replace(text, "|" => "/")
+      removed_new_lines = replace(processed_text, "\n" => " ")
+      tweet_dict[id] = removed_new_lines
+  end
+
+  return tweet_dict
+end
+
+function json_to_dict(data_dict)
+  id_to_text_dict = Dict{String, String}()
+  for tweet_dict in data_dict
+      id_to_text_dict[tweet_dict["id"]] = tweet_dict["text"]
+  end 
+  return id_to_text_dict
+end
+
+function write_csv(output_path, tweet_dict)
+  #write header 
+  writer = open(output_path, "a")
+
+  for (id, tweet) in tweet_dict
+      line = "$id|$tweet"
+      println(writer, line)
+  end
+  close(writer)
+end
+
+function write_unlabeled_tweets(data_dict, output_csv_path)
+    tweet_dict = json_to_dict(data_dict)
+    tweet_dict = replace_delimiters(tweet_dict)
+    write_csv(output_csv_path, tweet_dict)
   end
 end
 
@@ -83,4 +122,4 @@ function main()
 end
 
 main()
-# program arguments: <result path>
+# program arguments: <result csv path>
