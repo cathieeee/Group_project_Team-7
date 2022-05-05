@@ -37,7 +37,7 @@ module TweetExtractor
       return response
   end
 
-  function extract_tweets(write_result_csv)
+  function extract_tweets(write_result_csv, next_token=nothing)
     api_keys = get_Keys()
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -51,19 +51,35 @@ module TweetExtractor
     search_url = "https://api.twitter.com/2/tweets/search/recent"
 
     ####### if we get academic access use the below instead
-    query_params_academic = Dict(
+    query_academic_no_next = Dict(
       "query"=>"((Ivermectin OR Remdesivir OR Hydroxychloroquine OR ivermectin OR remdesivir OR hydroxychloroquine OR #Ivermectin OR #Remdesivir OR #Hydroxychloroquine OR #ivermectin OR #remdesivir OR #hydroxychloroquine) -is:retweet lang:en)",
       "tweet.fields"=>"text",
-      "max_results" => "50",
+      "max_results" => "10",
       "start_time" => "2022-4-1T13:00:00.00Z",
       "end_time" => "2022-4-30T13:00:00.00Z")
+
+    query_academic_next_token = Dict(
+      "query"=>"((Ivermectin OR Remdesivir OR Hydroxychloroquine OR ivermectin OR remdesivir OR hydroxychloroquine OR #Ivermectin OR #Remdesivir OR #Hydroxychloroquine OR #ivermectin OR #remdesivir OR #hydroxychloroquine) -is:retweet lang:en)",
+      "tweet.fields"=>"text",
+      "max_results" => "10",
+      "start_time" => "2022-4-1T13:00:00.00Z",
+      "end_time" => "2022-4-30T13:00:00.00Z",
+      "next_token" => next_token
+      )
 
     search_url_academic = "https://api.twitter.com/2/tweets/search/all"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - -
     ####### need to make params dictionary ######
     url = search_url_academic
-    params = query_params_academic
+    params = nothing
+
+    if isnothing(next_token)
+      params = query_academic_no_next
+    else
+      url = search_url_academic
+      params = query_academic_next_token
+    end
 
     r1 = make_GET_req(api_keys, url, params)
 
@@ -71,13 +87,13 @@ module TweetExtractor
     r1_Dict = JSON.parse(r1_obj)
 
     data_dict = r1_Dict["data"]
-    next_token = r1_Dict["meta"]["next_token"]
+    new_next_token = r1_Dict["meta"]["next_token"]
 
     write_unlabeled_tweets(data_dict, write_result_csv)
 
     # write JSON for debugging
-    writer = open("data/result.json", "w")
-    JSON.print(writer, r1_Dict)
+    # writer = open("data/result.json", "w")
+    # JSON.print(writer, r1_Dict)
 
     # r1_json = JSON.print(r1_obj)
 
@@ -87,7 +103,7 @@ module TweetExtractor
     # r1_Dict_data = r1_Dict["data"]
     # r1_data_keys = ["id" "text"]
 
-    return next_token
+    return new_next_token
   end
 
 function replace_delimiters(tweet_dict)
