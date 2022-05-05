@@ -57,8 +57,8 @@ module TweetExtractor
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - -
     ####### need to make params dictionary ######
-    url = search_url
-    params = query_params
+    url = search_url_academic
+    params = query_params_academic
 
     r1 = make_GET_req(api_keys, search_url, query_params)
 
