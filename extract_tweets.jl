@@ -1,3 +1,5 @@
+# program arguments: <result csv path>
+
 module TweetExtractor 
   using HTTP
   using JSON
@@ -73,7 +75,9 @@ module TweetExtractor
 
     write_unlabeled_tweets(data_dict, write_result_csv)
 
-    return next_token
+    # write JSON for debugging
+    writer = open("data/result.json", "w")
+    JSON.print(writer, r1_Dict)
 
     # r1_json = JSON.print(r1_obj)
 
@@ -82,6 +86,8 @@ module TweetExtractor
 
     # r1_Dict_data = r1_Dict["data"]
     # r1_data_keys = ["id" "text"]
+
+    return next_token
   end
 
 function replace_delimiters(tweet_dict)
@@ -121,10 +127,8 @@ function write_unlabeled_tweets(data_dict, output_csv_path)
 end
 
 function main()
-  # returns next token
   next_token = TweetExtractor.extract_tweets(ARGS[1])
   println(next_token)
 end
 
 main()
-# program arguments: <result csv path>
