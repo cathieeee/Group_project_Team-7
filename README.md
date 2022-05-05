@@ -3,9 +3,8 @@ Group 7 "Tweety Birds" README
 
 Project Name/Intro: Using a Multiclass SVM to Classify Twitter Sentiment of COVID-19 Drug Treatments
 
-Brief project Description: This program uses the twitter API to request historical tweets that meet out search criteria and then runs those tweets through a series of pre-processing steps. After pre-processing, this program runs the post-processed tweets through multiple classification machine learning models to map the sentiment (positive, negative or neutral) of each tweet. This program is ready to run as is. However, if users want to search for tweets meeting a 
+Brief project Description: This program uses the twitter API to request historical tweets that meet out search criteria and then runs those tweets through a series of pre-processing steps. After pre-processing, this program runs the post-processed tweets through multiple classification machine learning models to map the sentiment (positive, negative or neutral) of each tweet. This program is ready to run as is. However, if users want to search for tweets meeting a separate criteria i.e. a different time period or different languages or types of tweets they can change parameters in the "query_params_academic" object. This program is not compatible with other COVID-19 treatments as the machines in this program are entirely dependent on a pre-determined training set restricted to Ivermectin, Hydroxycholorquine and Remdesivir tweets. 
 
-State if it is out-of-the-box user-friendly, so it’s clear to the user.
 List its most useful/innovative/noteworthy features.
 State its goals/what problem(s) it solves.
 Note and briefly describe any key concepts (technical, philosophical, or both) important to the user’s understanding.
