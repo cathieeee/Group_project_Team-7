@@ -51,9 +51,9 @@ module TweetExtractor
     ####### if we get academic access use the below instead
     query_params_academic = Dict(
       "query"=>"((Ivermectin OR Remdesivir OR Hydroxychloroquine OR ivermectin OR remdesivir OR hydroxychloroquine OR #Ivermectin OR #Remdesivir OR #Hydroxychloroquine OR #ivermectin OR #remdesivir OR #hydroxychloroquine) -is:retweet lang:en)",
-      "tweet.fields"=>"text"
-      "max_results" => "500"
-      "start_time" => "2022-4-1T13:00:00.00Z"
+      "tweet.fields"=>"text",
+      "max_results" => "50",
+      "start_time" => "2022-4-1T13:00:00.00Z",
       "end_time" => "2022-4-30T13:00:00.00Z")
 
     search_url_academic = "https://api.twitter.com/2/tweets/search/all"
