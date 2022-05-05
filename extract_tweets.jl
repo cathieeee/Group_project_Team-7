@@ -6,7 +6,7 @@ module TweetExtractor
   
   ####### get keys ######
   # this function makes accessesing our twitter authorization information possible without directly including keys in code
-  function get_Keys(filename::String = ".keys")::Dict
+  function get_Keys(filename::String = ".final_keys")::Dict
       keys = Dict()
     
       isfile(filename) || exit("File not found: " + filename)
