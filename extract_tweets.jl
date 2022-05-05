@@ -90,6 +90,8 @@ module TweetExtractor
     new_next_token = r1_Dict["meta"]["next_token"]
 
     write_unlabeled_tweets(data_dict, write_result_csv)
+    return new_next_token
+
 
     # write JSON for debugging
     # writer = open("data/result.json", "w")
@@ -102,8 +104,6 @@ module TweetExtractor
 
     # r1_Dict_data = r1_Dict["data"]
     # r1_data_keys = ["id" "text"]
-
-    return new_next_token
   end
 
 function replace_delimiters(tweet_dict)

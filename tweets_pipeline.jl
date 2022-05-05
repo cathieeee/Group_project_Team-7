@@ -10,25 +10,27 @@ function get_all_tweets(write_result_path, target_amount, next_token=nothing)
     println("0 tweets collected so far")
     while target_amount > tweets_collected
         try
-            # println(new_next_token)
             if isnothing(new_next_token)
                 new_next_token = TweetExtractor.extract_tweets(write_result_path)
             else
                 new_next_token = TweetExtractor.extract_tweets(write_result_path, 
-                                                               new_next_token)
+                                                                new_next_token)
                 println(new_next_token)                                       
             end
             tweets_collected += 10
             println("$tweets_collected tweets collected so far")
-            wait(Timer(3))
-        catch
+            wait(Timer(4))
+        catch 
+            println("error caught!")
+            println(new_next_token)
             writer = open("data/next_token.txt", "w")
-            JSON.print(writer, new_next_token)
-            close(writer)           
+            println(writer, new_next_token)
+            close(writer) 
+            break
         end
     end
     writer = open("data/next_token.txt", "w")
-    JSON.print(writer, new_next_token)
+    println(writer, new_next_token)
     close(writer)
     println("extraction complete")
 end
