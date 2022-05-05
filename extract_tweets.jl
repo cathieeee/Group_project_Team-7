@@ -63,14 +63,17 @@ module TweetExtractor
     url = search_url_academic
     params = query_params_academic
 
-    r1 = make_GET_req(api_keys, search_url, query_params)
+    r1 = make_GET_req(api_keys, url, params)
 
     r1_obj = String(r1.body)
     r1_Dict = JSON.parse(r1_obj)
 
     data_dict = r1_Dict["data"]
+    next_token = r1_Dict["meta"]["next_token"]
 
     write_unlabeled_tweets(data_dict, write_result_csv)
+
+    return next_token
 
     # r1_json = JSON.print(r1_obj)
 
@@ -79,9 +82,6 @@ module TweetExtractor
 
     # r1_Dict_data = r1_Dict["data"]
     # r1_data_keys = ["id" "text"]
-
-    # writer = open(write_result_path, "w")
-    # JSON.print(writer, r1_Dict["data"])
   end
 
 function replace_delimiters(tweet_dict)
@@ -120,9 +120,11 @@ function write_unlabeled_tweets(data_dict, output_csv_path)
   end
 end
 
-# function main()
-#   TweetExtractor.extract_tweets(ARGS[1])
-# end
+function main()
+  # returns next token
+  next_token = TweetExtractor.extract_tweets(ARGS[1])
+  println(next_token)
+end
 
-# main()
+main()
 # program arguments: <result csv path>
