@@ -1,5 +1,3 @@
-# program arguments: <result csv path>
-
 module TweetExtractor 
   using HTTP
   using JSON
@@ -44,24 +42,32 @@ module TweetExtractor
     # these lines create query parameters in the form of a dictionary and a url link to the twitter API
     # recent_tweet_counts
     # https://github.com/twitterdev/Twitter-API-v2-sample-code/blob/main/Recent-Tweet-Counts/recent_tweet_counts.py
-    query_params = Dict(
-      "query"=>"((Ivermectin OR Remdesivir OR Hydroxychloroquine OR ivermectin OR remdesivir OR hydroxychloroquine OR #Ivermectin OR #Remdesivir OR #Hydroxychloroquine OR #ivermectin OR #remdesivir OR #hydroxychloroquine) -is:retweet lang:en)",
-      "tweet.fields"=>"text")
 
-    search_url = "https://api.twitter.com/2/tweets/search/recent"
 
-    ####### if we get academic access use the below instead
+    ## ALL DRUGS QUERY ##
+    #(Ivermectin OR Remdesivir OR Hydroxychloroquine OR ivermectin OR remdesivir OR hydroxychloroquine OR #Ivermectin OR #Remdesivir OR #Hydroxychloroquine OR #ivermectin OR #remdesivir OR #hydroxychloroquine)
+
+    ## IVERMECTIN QUERY ##
+    #(Ivermectin OR ivermectin OR #Ivermectin OR #ivermectin)
+
+    ## HYDROXY QUERY ##
+    #(Hydroxychloroquine OR hydroxychloroquine OR #Hydroxychloroquine OR #hydroxychloroquine)
+
+    ## REMDESIVIR QUERY ##
+    #(Remdesivir OR remdesivir OR #Remdesivir OR remdesivir)
+
+
     query_academic_no_next = Dict(
-      "query"=>"((Ivermectin OR Remdesivir OR Hydroxychloroquine OR ivermectin OR remdesivir OR hydroxychloroquine OR #Ivermectin OR #Remdesivir OR #Hydroxychloroquine OR #ivermectin OR #remdesivir OR #hydroxychloroquine) -is:retweet lang:en)",
+      "query"=>"((Remdesivir OR remdesivir OR #Remdesivir OR remdesivir) -is:retweet lang:en)",
       "tweet.fields"=>"text",
-      "max_results" => "10",
+      "max_results" => "500",
       "start_time" => "2022-4-1T13:00:00.00Z",
       "end_time" => "2022-4-30T13:00:00.00Z")
 
     query_academic_next_token = Dict(
-      "query"=>"((Ivermectin OR Remdesivir OR Hydroxychloroquine OR ivermectin OR remdesivir OR hydroxychloroquine OR #Ivermectin OR #Remdesivir OR #Hydroxychloroquine OR #ivermectin OR #remdesivir OR #hydroxychloroquine) -is:retweet lang:en)",
+      "query"=>"((Remdesivir OR remdesivir OR #Remdesivir OR remdesivir) -is:retweet lang:en)",
       "tweet.fields"=>"text",
-      "max_results" => "10",
+      "max_results" => "500",
       "start_time" => "2022-4-1T13:00:00.00Z",
       "end_time" => "2022-4-30T13:00:00.00Z",
       "next_token" => next_token
@@ -88,9 +94,10 @@ module TweetExtractor
 
     data_dict = r1_Dict["data"]
     new_next_token = r1_Dict["meta"]["next_token"]
+    result_count = r1_Dict["meta"]["result_count"]
 
     write_unlabeled_tweets(data_dict, write_result_csv)
-    return new_next_token
+    return result_count, new_next_token
 
 
     # write JSON for debugging
@@ -146,5 +153,3 @@ function main()
   next_token = TweetExtractor.extract_tweets(ARGS[1])
   println(next_token)
 end
-
-main()
