@@ -4,10 +4,12 @@ module DocVector
     using Pkg
     @pyimport nltk
 
-#    ENV["PYTHON"] = "/Users/elizabethzhang/brown_venvs/biol1555_env/bin/python3"    
-#    Pkg.build("PyCall")
-
-    function stem_corpus(corpus)
+    """
+        stem_corpus(corpus::Corpus)
+    
+    Return a list of stemmed vectors given a corpus.
+    """
+    function stem_corpus(corpus::Corpus)
         doc_list = []
         for page in corpus
             nltk = pyimport("nltk")
@@ -23,8 +25,12 @@ module DocVector
         return doc_list
     end
 
-    #TODO: stil have to handle emojis, numbers, noncharacters 
-    function preprocess_corpus(corpus)
+    """
+        preprocess_corpus(corpus::Corpus)
+
+    Return a preprocessed corpus given a corpus.
+    """
+    function preprocess_corpus(corpus::Corpus)
         # remove corrupted characters
         remove_corrupt_utf8!(corpus) 
         # strip case
@@ -37,16 +43,25 @@ module DocVector
         return stem_corpus(corpus)
     end
 
-    function convert_to_bigram(corpus)
+    """
+        convert_to_ngram(corpus::Corpus)
+    
+    Return a corpus of NGramDocuments containing ngrams given a corpus. 
+    """
+    function convert_to_ngram(corpus::Corpus)
         doc_list = []
         for doc in corpus
-            ## CHANGE NGRAM HERE ##
             push!(doc_list, NGramDocument(doc, 1)) 
         end
         return Corpus(doc_list)
     end
 
-    function make_token_index(n_gram_crps)
+    """
+        make_token_index(n_gram_crps::Corpus)
+    
+    Return a dictionary of ngram -> feature index given a Corpus with ngrams.
+    """
+    function make_token_index(n_gram_crps::Corpus)
         token_index = Dict()
         counter = 1
         for doc in n_gram_crps
@@ -61,7 +76,18 @@ module DocVector
         return token_index
     end
 
-    function make_features(tweet_list, tkn_dict=nothing)
+    """
+        make_features(tweet_list::Vector, tkn_dict=nothing::Dict)
+    
+    Return a token dictionary & one-hot encoded ngram features. 
+
+    # Arguments 
+        - tweet_list::Vector: vector of Strings of tweets
+        - tkn_dict=nothing::Dict: token dictionary of ngrams -> feature index 
+           used for creating test features; defaults to nothing for training 
+           features
+    """
+    function make_features(tweet_list::Vector, tkn_dict=nothing)
         doc_list = []
         for tweet in tweet_list
             push!(doc_list, StringDocument(tweet))
@@ -70,7 +96,7 @@ module DocVector
         crps = preprocess_corpus(crps)
 
         # convert to corpus with NGramDocuments
-        crps = convert_to_bigram(crps)
+        crps = convert_to_ngram(crps)
         # dict of bigram --> corresponding index in feature
         token_index = nothing
         if isnothing(tkn_dict)
@@ -93,7 +119,12 @@ module DocVector
         return token_index, features
     end
 
-    function write_token_index(tkn_dict, tkn_csv_path)
+    """
+        write_token_index(tkn_dict::Dict, tkn_csv_path::String)
+    
+    Write token dictionary of ngram -> feature dictionary to tkn_csv_path.
+    """
+    function write_token_index(tkn_dict::Dict, tkn_csv_path::String)
         writer = open(tkn_csv_path, "w")
         for (ngram, index) in tkn_dict
             println(writer, "$ngram|$index")
@@ -101,7 +132,12 @@ module DocVector
         close(writer)
     end
 
-    function read_token_csv(csv_path)
+    """
+        read_token_csv(csv_path::String)
+    
+    Return dictionary read from a CSV mapping ngrams to feaure indices at csv_path.
+    """
+    function read_token_csv(csv_path::String)
         token_dict = Dict()
         reader = open(csv_path, "r")
         for line in readlines(reader)
@@ -111,7 +147,17 @@ module DocVector
         return token_dict
     end
 
-    function make_train_features(tweet_list, tkn_csv_path)
+    """
+        make_train_features(tweet_list::Vector, tkn_csv_path::String)
+
+    Return one hot encoded ngram features and write ngrams -> feature index. 
+
+    # Arguments 
+        - tweet_list::Vector: vector of Strings representing tweets
+        - tkn_csv_path::String: path to write ngrams -> feature index
+          dictionary to as CSV in form "ngram|feature"
+    """
+    function make_train_features(tweet_list::Vector, tkn_csv_path::String)
         println("making train features...")
         train_token_index, train_features = make_features(tweet_list)
         # write token_index csv
@@ -119,6 +165,11 @@ module DocVector
         return train_features
     end
 
+    """
+        make_test_features(tweet)
+    
+    Return test features given tweet_list and tkn_csv_path with ngram -> feature index.
+    """
     function make_test_features(tweet_list, tkn_csv_path)
         println("making test features...")
         tkn_dict = read_token_csv(tkn_csv_path)

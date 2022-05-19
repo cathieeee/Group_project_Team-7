@@ -1,9 +1,17 @@
-# program arguments <result csv path> <target_amount> <next_token> (optional)
 include("extract_tweets.jl")
 import .TweetExtractor as tweet_extractor
 using JSON
 
-function get_all_tweets(write_result_path, target_amount, next_token=nothing)
+"""
+    get_all_tweets(write_result_path::String, 
+                   target_amount::Int, 
+                   next_token=nothing)
+
+Writes target_amount of tweets to CSV file, using next_token if applicable 
+"""
+function get_all_tweets(write_result_path::String, 
+                        target_amount::Int, 
+                        next_token=nothing)
     new_next_token = next_token
     tweets_collected = 0
 
@@ -36,7 +44,9 @@ function get_all_tweets(write_result_path, target_amount, next_token=nothing)
     println("extraction complete")
 end
 
+""" Main function to takein program arguments """
 function main()
+    # program arguments <result csv path> <target_amount> <next_token> (optional)
     target_amount = parse(Int32, ARGS[2])
     num_args = length(ARGS) 
 

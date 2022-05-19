@@ -1,0 +1,11 @@
+    ## ALL DRUGS QUERY ##
+    #(Ivermectin OR Remdesivir OR Hydroxychloroquine OR ivermectin OR remdesivir OR hydroxychloroquine OR #Ivermectin OR #Remdesivir OR #Hydroxychloroquine OR #ivermectin OR #remdesivir OR #hydroxychloroquine)
+
+    ## IVERMECTIN QUERY ##
+    #(Ivermectin OR ivermectin OR #Ivermectin OR #ivermectin)
+
+    ## HYDROXY QUERY ##
+    #(Hydroxychloroquine OR hydroxychloroquine OR #Hydroxychloroquine OR #hydroxychloroquine)
+
+    ## REMDESIVIR QUERY ##
+    #(Remdesivir OR remdesivir OR #Remdesivir OR remdesivir)
